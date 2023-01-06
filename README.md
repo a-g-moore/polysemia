@@ -1,10 +1,22 @@
 # Polysemia: Visualize Contextual Word Emebeddings
 
+This is a work in progress!
+
 The script `main.py` is designed to accept a single English word, search the Gutenberg corpus for uses of that word in context, feed that context to BERT, and extract context-dependent feature embeddings for that word in each of its uses. The processed data will be saved in a compressed PyTorch file in a new folder called `cache/`. The user can then run `visualize.ipnyb` to preform principal component analysis on the emebeddings and create an interactive 3d visualization of the PCA plot. Different meanings of the word will show up as distinct clusters in the plot. 
 
-`main.py` accepts two arguments: `--word` defines the word to search for, and `--numfiles` will limit the number of books searched for that word. Searching the whole corpus is quite expensive, and good plots can be obtained with only a few thousand books. Note that only words in the BERT vocabulary are accepted. The program will use CUDA for inference if it is available; running on CPU is not recommended for large sample sizes. 
+`main.py` accepts two arguments: `--word` defines the word to search for, and `--numfiles` will limit the number of books searched for that word. Searching the whole corpus is quite expensive, and good plots can be obtained with only a few thousand books. Note that only words in the BERT vocabulary are accepted. The program will use CUDA for inference if it is available; running on CPU is not recommended for large sample sizes.
 
-This is a work in progress!
+### Example Run
+
+I ran the command 
+```sh
+python main.py --word right --numfiles 1000
+```
+As a test machine, I used a friend's computer with a Ryzen 3600XT 6-core CPU and an RTX 3090. Data extraction took 3 minutes, finding 46 thousand examples. Inference on those examples took another 7 minutes (inference with a CPU would take around 9 hours!). The generated plot looked as follows:
+<p align="center">
+    <img src="https://github.com/a-g-moore/polysemia/blob/master/example.png?raw=true" width="50%">
+</p>
+The word 'right' has a variety of related meanings, each of which is clustered in its own blob on the chart. The tooltip shows the metadata for a point in the rightmost blob, which corresponds to 'right' meaning 'moral or legal entitlement'.
 
 ## Installation Instructions
 
