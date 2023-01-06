@@ -36,7 +36,7 @@ def get_word_context_tensor(tokenizer, token_list, index, context_length):
 
     # Human-readable context for hover tooltips
     meta_context_tokens = token_list[(index-5):(index+6)]
-    meta_context_tokens[5] = meta_context_tokens[5].upper()
+    meta_context_tokens[5] = '<i>' + meta_context_tokens[5] + '</i>'
     meta_context = '...' + ' '.join(meta_context_tokens) + '...'
     meta_context = meta_context.replace(' ##', '')
     meta_context = meta_context.replace('##', '')
