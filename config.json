@@ -1,0 +1,7 @@
+{
+	"data_dir": "SPGC-tokens-2018-07-18",
+	"metadata": "metadata.csv",
+	"context_length": 511,
+	"batch_size": 32,
+	"model_name": "bert-base-uncased"
+}
