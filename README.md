@@ -4,6 +4,14 @@ The script `main.py` is designed to accept a single English word, search the Gut
 
 `main.py` accepts two arguments: `--word` defines the word to search for, and `--numfiles` will limit the number of books searched for that word. Searching the whole corpus is quite expensive, and good plots can be obtained with only a few thousand books. Note that only words in the BERT vocabulary are accepted. The program will use CUDA for inference if it is available; running on CPU is not recommended for large sample sizes. 
 
+If you want the repo to work out of the box, it is recommended to set up a virtual environment and install the required packages:
+```sh
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+The visualizations are designed to work with the integrated notebook viewer in VSCode. You may need to modify `pio.renderers.default` to get it to work in a different context.
+
 This is a work in progress!
 
 ## Installation Instructions
