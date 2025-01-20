@@ -3,5 +3,5 @@
 	"metadata": "metadata.csv",
 	"context_length": 511,
 	"batch_size": 32,
-	"model_name": "bert-base-uncased"
+	"model_name": "answerdotai/ModernBERT-base"
 }

@@ -1,5 +1,5 @@
 import torch, json, click, os
-from transformers import BertTokenizer, BertModel
+from transformers import AutoTokenizer, ModernBertModel
 from tqdm import tqdm
 
 from data import all_context_from_corpus
@@ -23,7 +23,7 @@ def embed_batch(device, model, config, token_tensor):
     return second_last_layer[..., target_index, :]
 
 def run_inference(device, config, batches):
-    model = BertModel.from_pretrained(config['model_name'], output_hidden_states=True).to(device)
+    model = ModernBertModel.from_pretrained(config['model_name'], output_hidden_states=True).to(device)
     model.eval()
 
     results_list = [embed_batch(device, model, config, batch).to('cpu') for batch in tqdm(batches, leave=True, desc="inference")]
@@ -49,7 +49,7 @@ def main(word, numfiles):
     with open("config.json", "r") as FILE:
         config = json.load(FILE)
 
-    tokenizer = BertTokenizer.from_pretrained(config['model_name'])
+    tokenizer = AutoTokenizer.from_pretrained(config['model_name'])
     assert word in tokenizer.vocab.keys()
 
     batches, metadata = all_context_from_corpus(tokenizer, config, word, numfiles)
