@@ -11,19 +11,16 @@ def embed_batch(device, model, config, token_tensor):
     target_index = int(context_length / 2)
 
     segment_tensor = torch.ones_like(token_tensor)
-    
+
     with torch.no_grad():
         segment_tensor = segment_tensor.to(device)
         token_tensor = token_tensor.to(device)
         output = model(token_tensor, segment_tensor)
 
-    hidden_values = output[2]
-    second_last_layer = hidden_values[-2]
-
-    return second_last_layer[..., target_index, :]
+    return output['last_hidden_state'][..., target_index, :]
 
 def run_inference(device, config, batches):
-    model = ModernBertModel.from_pretrained(config['model_name'], output_hidden_states=True).to(device)
+    model = ModernBertModel.from_pretrained(config['model_name']).to(device) #, output_hidden_states=True).to(device)
     model.eval()
 
     results_list = [embed_batch(device, model, config, batch).to('cpu') for batch in tqdm(batches, leave=True, desc="inference")]

@@ -11,3 +11,4 @@ click
 joblib
 tqdm
 pandas
+scikit-learn

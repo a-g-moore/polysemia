@@ -35,11 +35,13 @@ def get_word_context_tensor(tokenizer, token_list, index, context_length):
     context_tensor = tokenizer.convert_tokens_to_ids(context_tokens)
 
     # Human-readable context for hover tooltips
-    meta_context_tokens = token_list[(index-5):(index+6)]
-    meta_context_tokens[5] = '<i>' + meta_context_tokens[5] + '</i>'
-    meta_context = '...' + ' '.join(meta_context_tokens) + '...'
+    meta_context_tokens = token_list[(index-10):(index+11)]
+    meta_context_tokens[10] = '<i>' + meta_context_tokens[10] + '</i>'
+    meta_context = '...' + ''.join(meta_context_tokens) + '...'
     meta_context = meta_context.replace(' ##', '')
     meta_context = meta_context.replace('##', '')
+    meta_context = meta_context.replace('Ċ', '')
+    meta_context = meta_context.replace('Ġ', ' ')
 
     return dict(
         tensor = torch.tensor(context_tensor), 
@@ -70,7 +72,7 @@ def extract_context_tensors(tokenizer, filename, target_word, context_length):
     
     # Find word matches and get the context for each, filter out null responses
     context_pair_list = [get_word_context_tensor(tokenizer, token_list, index, context_length) 
-            for index, word in enumerate(token_list) if word == target_word]
+            for index, word in enumerate(token_list) if target_word in word and abs(len(target_word) - len(word)) <= 1]
     context_tensor_list = [pair['tensor'].unsqueeze(0) for pair in context_pair_list if pair is not None]
     meta_context_list = [pair['context_string'] for pair in context_pair_list if pair is not None]
 
